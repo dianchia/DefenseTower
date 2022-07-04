@@ -5,12 +5,12 @@ plugins {
 // Change the values below this to your mods values
 // To change the project name, edit the settings.gradle file
 
-project.ext.modID = "fair.examplemod" // The unique id of your mod. Must be all lowercase and cannot use special characters.
-project.ext.modName = "Example Mod" // The display name of your mod.
-project.ext.modVersion = "1.0" // Your current builds version. Must follow the xx.xx... format.
+project.ext.modID = "dianchia.defensetower" // The unique id of your mod. Must be all lowercase and cannot use special characters.
+project.ext.modName = "Defense Tower" // The display name of your mod.
+project.ext.modVersion = "0.1.0" // Your current builds version. Must follow the xx.xx... format.
 project.ext.gameVersion = "0.21.23" // The target game version.
-project.ext.modDescription = "Just an example mod" // Short description of what your mod is.
-project.ext.author = "Fair" // Your name
+project.ext.modDescription = "Defense Tower to defend your base" // Short description of what your mod is.
+project.ext.author = "dianchia" // Your name
 
 /**
  * When setting clientside to true, it means servers do not need this mod for clients to connect and vice versa.
