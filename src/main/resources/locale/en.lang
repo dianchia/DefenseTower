@@ -4,6 +4,6 @@ defensetower=Defense Tower
 [itemtooltip]
 defensetowertip=A tower to help you defense your base!
 
-[mob]
-defensetowerarcher=Defense Tower Archer
-defensetowerarchername=Defense Tower Archer
+[defensetower]
+attackstats=Damage: <damage>
+rangestats=Attack distance: <range> tiles

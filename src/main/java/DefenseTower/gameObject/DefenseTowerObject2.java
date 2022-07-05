@@ -1,5 +1,7 @@
 package DefenseTower.gameObject;
 
+import necesse.entity.mobs.PlayerMob;
+import necesse.gfx.camera.GameCamera;
 import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 import necesse.level.maps.multiTile.MultiTile;
@@ -15,8 +17,12 @@ public class DefenseTowerObject2 extends DefenseTowerExtraObject{
     }
 
     @Override
+    protected void setCounterIDs(int var1, int var2) {
+        this.counterIDLeft = var1;
+    }
+
+    @Override
     protected Rectangle getCollision(Level level, int x, int y, int rotation) {
-//        return new Rectangle();
         return new Rectangle(x * 32, y * 32, 32 - 3, 32);
     }
 
@@ -28,12 +34,12 @@ public class DefenseTowerObject2 extends DefenseTowerExtraObject{
     }
 
     @Override
-    protected void setCounterIDs(int var1, int var2) {
-        this.counterIDLeft = var1;
+    public MultiTile getMultiTile(int rotation) {
+        return new StaticMultiTile(1, 0, 2, 1, 0, false, this.counterIDLeft, this.getID());
     }
 
     @Override
-    public MultiTile getMultiTile(int rotation) {
-        return new StaticMultiTile(1, 0, 2, 1, 0, false, this.counterIDLeft, this.getID());
+    public void onMouseHover(Level level, int x, int y, GameCamera camera, PlayerMob perspective, boolean debug) {
+        super.onMouseHover(level, x - 1, y, camera, perspective, debug);
     }
 }

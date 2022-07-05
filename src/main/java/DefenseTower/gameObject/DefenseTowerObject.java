@@ -21,7 +21,6 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
     public GameTexture texture_day;
     public GameTexture texture_night;
     protected int counterIDRight;
-    private PlayerMob owner;
 
     public DefenseTowerObject() {
     }
