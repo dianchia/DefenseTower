@@ -9,8 +9,10 @@ Raid, raid, raid.
 You love it and you hate it.
 It brings new challenge to your game, but it brings pain to you.
 Isn't it painful to see your settlers die to raiders?
+
 Fear not, now you have the option to defend your base, **with tower**!
 
+_p.s. The tower can be found in workstation_
 
 # Multiplayer
 This mod is required on both server and client.

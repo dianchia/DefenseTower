@@ -22,6 +22,7 @@ public abstract class DefenseTowerExtraObject extends GameObject {
         this.toolType = ToolType.PICKAXE;
         this.objectHealth = 100;
         this.drawDmg = false;
+        this.stackSize = 10;
 
         this.isLightTransparent = true;
         this.lightLevel = 320;
