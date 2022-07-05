@@ -1,5 +1,5 @@
 # Mod Information
-Mod version: 0.1.0
+Mod version: 0.1.1
 
 Game version: 0.21.23
 
