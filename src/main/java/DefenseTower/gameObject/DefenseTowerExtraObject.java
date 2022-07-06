@@ -1,13 +1,14 @@
 package DefenseTower.gameObject;
 
-import DefenseTower.objectEntity.DefenseTowerEntity;
 import necesse.engine.localization.Localization;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
+import necesse.gfx.gameTexture.GameTexture;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.item.toolItem.ToolType;
 import necesse.level.gameObject.GameObject;
+import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 
 import java.awt.*;
@@ -15,9 +16,12 @@ import java.util.Objects;
 
 public abstract class DefenseTowerExtraObject extends GameObject {
     public String lastChangedTime = "morning";
+    protected GameTexture texture_day;
+    protected GameTexture texture_night;
+
     public DefenseTowerExtraObject() {
         super(new Rectangle(32, 32));
-        this.mapColor = new Color(86, 79, 79);
+        this.mapColor = new Color(107, 107, 107);
         this.displayMapTooltip = true;
         this.toolType = ToolType.PICKAXE;
         this.objectHealth = 100;
@@ -25,22 +29,27 @@ public abstract class DefenseTowerExtraObject extends GameObject {
         this.stackSize = 10;
 
         this.isLightTransparent = true;
-        this.lightLevel = 320;
-        this.lightSat = 0.05F;
-        this.lightHue = 80F;
+        this.lightLevel = 200;
+        this.lightSat = 0.2F;
+        this.lightHue = 60F;
         this.roomProperties.add("light");
     }
 
     protected abstract void setCounterIDs(int var1, int var2);
 
     @Override
-    public boolean canInteract(Level level, int x, int y, PlayerMob player) {
-        return false;
+    public abstract ObjectEntity getNewObjectEntity(Level level, int x, int y);
+
+    @Override
+    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
+        java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+        list.add(new ObjectHoverHitbox(tileX, tileY, 0, -32, 32, 32));
+        return list;
     }
 
     @Override
-    public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        return this.isMultiTileMaster() ? new DefenseTowerEntity(level, "defensetowerentity", x, y) : null;
+    public boolean canInteract(Level level, int x, int y, PlayerMob player) {
+        return false;
     }
 
     @Override
@@ -52,7 +61,8 @@ public abstract class DefenseTowerExtraObject extends GameObject {
 
     @Override
     public int getLightLevel(Level level, int x, int y) {
-        return level.getWorldEntity().isNight() ? this.lightLevel : 0;
+        return this.lightLevel;
+//        return level.getWorldEntity().isNight() ? this.lightLevel : 0;
     }
 
     @Override
@@ -68,8 +78,7 @@ public abstract class DefenseTowerExtraObject extends GameObject {
         if (level.getWorldEntity().isNight() && Objects.equals(this.lastChangedTime, "morning")) {
             this.lastChangedTime = "night";
             return true;
-        }
-        else if (!level.getWorldEntity().isNight() && Objects.equals(this.lastChangedTime, "night")) {
+        } else if (!level.getWorldEntity().isNight() && Objects.equals(this.lastChangedTime, "night")) {
             this.lastChangedTime = "morning";
             return true;
         }
