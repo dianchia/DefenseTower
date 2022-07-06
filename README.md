@@ -30,10 +30,4 @@ Bugs can be reported to [here](https://github.com/dianchia/DefenseTower/issues)
 
 ## Collection
 
-Below are a few mod I had written:
-
-- [Defense Tower](https://github.com/dianchia/DefenseTower)
-- [Faster Path](https://github.com/dianchia/FasterPath)
-- [Hide Settlers Armor](https://github.com/dianchia/HideSettlersArmor)
-- [Increased Stack Size](https://github.com/dianchia/IncreasedStackSize)
-- [Vanilla Path +](https://github.com/dianchia/VanillaPathPlus)
+[Here](https://github.com/dianchia/Necesse-Mods) are a few mods I wrote
