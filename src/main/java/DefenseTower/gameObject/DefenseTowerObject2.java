@@ -36,4 +36,12 @@ public class DefenseTowerObject2 extends DefenseTowerExtraObject {
     public MultiTile getMultiTile(int rotation) {
         return new StaticMultiTile(1, 0, 2, 1, 0, false, this.counterIDLeft, this.getID());
     }
+
+    @Override
+    public void onMouseHover(Level level, int x, int y, GameCamera camera, PlayerMob perspective, boolean debug) {
+        ObjectEntity ent = level.entityManager.getObjectEntity(x - 1, y);
+        if (ent != null) {
+            ent.onMouseHover(perspective, debug);
+        }
+    }
 }

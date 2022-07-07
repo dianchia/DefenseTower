@@ -4,6 +4,7 @@ import DefenseTower.gameObject.DefenseTowerObject;
 import DefenseTower.projectiles.DefenseTowerFireArrowProjectile;
 import DefenseTower.projectiles.DefenseTowerPoisonArrowProjectile;
 import DefenseTower.projectiles.DefenseTowerStoneArrowProjectile;
+import necesse.engine.control.Control;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.ProjectileRegistry;
 import necesse.engine.registries.RecipeTechRegistry;

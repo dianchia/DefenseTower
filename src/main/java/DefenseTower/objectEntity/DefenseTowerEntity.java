@@ -2,10 +2,10 @@ package DefenseTower.objectEntity;
 
 import necesse.engine.GameTileRange;
 import necesse.engine.Screen;
+import necesse.engine.control.Control;
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ProjectileRegistry;
 import necesse.engine.tickManager.TickManager;
-import necesse.engine.util.gameAreaSearch.GameAreaStream;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
@@ -15,13 +15,13 @@ import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.SharedTextureDrawOptions;
 import necesse.gfx.drawables.SortedDrawable;
 import necesse.gfx.gameTooltips.StringTooltips;
+import necesse.gfx.shader.ColorShader;
 import necesse.level.maps.Level;
 import necesse.level.maps.hudManager.HudDrawElement;
 import necesse.level.maps.multiTile.MultiTile;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Objects;
 
 public class DefenseTowerEntity extends ObjectEntity {
 
@@ -30,9 +30,10 @@ public class DefenseTowerEntity extends ObjectEntity {
     private final int searchDistance;
     private final float damage;
     private final String projectileStringID;
+    private final GameTileRange range;
+    private HudDrawElement rangeElement;
+    private boolean showRange = false;
     private long cooldownTime = 0L;
-    //    public GameTileRange range;
-//    public HudDrawElement rangeElement;
 
     public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown) {
         super(level, type, x, y);
@@ -43,35 +44,37 @@ public class DefenseTowerEntity extends ObjectEntity {
         this.damage = damage;
         this.cooldown = cooldown;
 
-//        MultiTile multiTile = this.getObject().getMultiTile(0);
-//        Rectangle tileRectangle = multiTile.getTileRectangle(0, 0);
-//        this.range = new GameTileRange((float) (searchDistance / 32) - 1, tileRectangle);
+        MultiTile multiTile = this.getObject().getMultiTile(0);
+        Rectangle tileRectangle = multiTile.getTileRectangle(0, 0);
+        this.range = new GameTileRange((float) (searchDistance / 32) - 1, tileRectangle);
     }
 
     @Override
     public void init() {
         super.init();
-//        if (this.rangeElement != null) this.rangeElement.remove();
-//        this.rangeElement = new HudDrawElement() {
-//            @Override
-//            public void addDrawables(List<SortedDrawable> list, GameCamera gameCamera, PlayerMob playerMob) {
-//                final SharedTextureDrawOptions options = DefenseTowerEntity.this.range.getDrawOptions(new Color(255, 255, 255, 120), new Color(255, 255, 255, 50), DefenseTowerEntity.this.getTileX(), DefenseTowerEntity.this.getTileY(), gameCamera);
-//                if (options != null) {
-//                    list.add(new SortedDrawable() {
-//                        @Override
-//                        public int getPriority() {
-//                            return -1000000;
-//                        }
-//
-//                        @Override
-//                        public void draw(TickManager tickManager) {
-//                            options.draw();
-//                        }
-//                    });
-//                }
-//            }
-//        };
-//        this.getLevel().hudManager.addElement(this.rangeElement);
+        if (this.rangeElement != null) this.rangeElement.remove();
+        this.rangeElement = new HudDrawElement() {
+            @Override
+            public void addDrawables(List<SortedDrawable> list, GameCamera gameCamera, PlayerMob playerMob) {
+                if (DefenseTowerEntity.this.showRange) {
+                    final SharedTextureDrawOptions options = DefenseTowerEntity.this.range.getDrawOptions(new Color(255, 255, 255, 120), new Color(255, 255, 255, 50), DefenseTowerEntity.this.getTileX(), DefenseTowerEntity.this.getTileY(), gameCamera);
+                    if (options != null) {
+                        list.add(new SortedDrawable() {
+                            @Override
+                            public int getPriority() {
+                                return -1000000;
+                            }
+
+                            @Override
+                            public void draw(TickManager tickManager) {
+                                options.draw();
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        this.getLevel().hudManager.addElement(this.rangeElement);
     }
 
     @Override
@@ -83,7 +86,6 @@ public class DefenseTowerEntity extends ObjectEntity {
                     .filter((target) -> target.getDistance(this.getPosX(), this.getPosY()) <= this.searchDistance)
                     .findFirst()
                     .ifPresent(this::attackMob);
-//            mobs.findFirst().ifPresent(this::attackMob);
             this.startCooldown();
         }
     }
@@ -96,12 +98,27 @@ public class DefenseTowerEntity extends ObjectEntity {
         float attackSpeed = 1000.0F / this.cooldown;
 
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
-        tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
-        tooltips.add(Localization.translate("defensetower", "attacktype", "type", attackType));
-        tooltips.add(Localization.translate("defensetower", "attackspeed", "speed", String.format("%.2f", attackSpeed)));
-        tooltips.add(Localization.translate("defensetower", "rangestats", "range", this.attackDistance / 32));
+
+
+        if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
+            this.showRange = true;
+            tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
+            tooltips.add(Localization.translate("defensetower", "attacktype", "type", attackType));
+            tooltips.add(Localization.translate("defensetower", "attackspeed", "speed", String.format("%.2f", attackSpeed)));
+            tooltips.add(Localization.translate("defensetower", "rangestats", "range", (this.attackDistance / 32) - 2));
+        } else {
+            this.showRange = false;
+            tooltips.add(Localization.translate("defensetower", "pressshift"));
+//            pressshift=Press §9SHIFT§0 to show more details
+        }
 
         Screen.addTooltip(tooltips);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (this.rangeElement != null) this.rangeElement.remove();
     }
 
     private boolean onCooldown() {

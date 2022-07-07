@@ -1,6 +1,8 @@
 package DefenseTower.gameObject;
 
 import DefenseTower.objectEntity.DefenseTowerEntity;
+import necesse.engine.Screen;
+import necesse.engine.control.Control;
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.tickManager.TickManager;
@@ -17,6 +19,7 @@ import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.StaticMultiTile;
+import net.bytebuddy.asm.Advice;
 
 import java.awt.*;
 import java.util.List;
@@ -63,8 +66,6 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         this.texture_night = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_night");
     }
 
-    ;
-
     @Override
     protected void setCounterIDs(int var1, int var2) {
         this.counterIDRight = var2;
@@ -91,10 +92,15 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         float attackSpeed = 1000.0F / this.cooldown;
 
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
-        tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
-        tooltips.add(Localization.translate("defensetower", "attacktype", "type", this.towerType));
-        tooltips.add(Localization.translate("defensetower", "attackspeed", "speed", String.format("%.2f", attackSpeed)));
-        tooltips.add(Localization.translate("defensetower", "rangestats", "range", 512 / 32));
+        if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
+            tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
+            tooltips.add(Localization.translate("defensetower", "attacktype", "type", this.towerType));
+            tooltips.add(Localization.translate("defensetower", "attackspeed", "speed", String.format("%.2f", attackSpeed)));
+            tooltips.add(Localization.translate("defensetower", "rangestats", "range", (512 / 32) - 2));
+        } else {
+            tooltips.add(Localization.translate("defensetower", "pressshift"));
+            System.out.println(Localization.translate("itemtooltip", "fowtipnotequipped"));
+        }
         return tooltips;
     }
 

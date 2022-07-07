@@ -11,3 +11,4 @@ attackstats=Damage: <damage>
 attacktype=Damage Type: <type>
 attackspeed=Attack Speed: <speed>/sec
 rangestats=Attack distance: <range> tiles
+pressshift=Press [input=invquickmove] to show more details
