@@ -1,41 +1,47 @@
 package DefenseTower.objectEntity;
 
+import DefenseTower.mobs.DefenseTowerAttackerMob;
 import necesse.engine.GameTileRange;
 import necesse.engine.Screen;
 import necesse.engine.control.Control;
 import necesse.engine.localization.Localization;
+import necesse.engine.localization.message.GameMessage;
+import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.registries.ProjectileRegistry;
+import necesse.engine.save.LoadData;
+import necesse.engine.save.SaveData;
 import necesse.engine.tickManager.TickManager;
-import necesse.entity.mobs.GameDamage;
-import necesse.entity.mobs.Mob;
-import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.*;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.projectile.Projectile;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.SharedTextureDrawOptions;
 import necesse.gfx.drawables.SortedDrawable;
 import necesse.gfx.gameTooltips.StringTooltips;
-import necesse.gfx.shader.ColorShader;
 import necesse.level.maps.Level;
 import necesse.level.maps.hudManager.HudDrawElement;
 import necesse.level.maps.multiTile.MultiTile;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 
-public class DefenseTowerEntity extends ObjectEntity {
+public class DefenseTowerEntity extends ObjectEntity implements Attacker {
 
+    //region Fields
     private final long cooldown;
     private final int attackDistance;
     private final int searchDistance;
     private final float damage;
     private final String projectileStringID;
     private final GameTileRange range;
+    private final Mob attacker;
     private HudDrawElement rangeElement;
     private boolean showRange = false;
     private long cooldownTime = 0L;
+    //endregion
 
-    public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown) {
+    public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown, PlayerMob owner) {
         super(level, type, x, y);
 
         this.projectileStringID = projectileStringID;
@@ -43,6 +49,9 @@ public class DefenseTowerEntity extends ObjectEntity {
         this.searchDistance = attackDistance - 32;
         this.damage = damage;
         this.cooldown = cooldown;
+
+        this.attacker = new DefenseTowerAttackerMob();
+        //this.getLevel().entityManager.addMob(this.attacker, x, y);
 
         MultiTile multiTile = this.getObject().getMultiTile(0);
         Rectangle tileRectangle = multiTile.getTileRectangle(0, 0);
@@ -82,7 +91,7 @@ public class DefenseTowerEntity extends ObjectEntity {
         super.serverTick();
         if (this.getLevel().isServerLevel() && !this.onCooldown()) {
             this.getLevel().entityManager.mobs.streamArea(this.getPosX(), this.getPosY(), this.searchDistance)
-                    .filter((target) -> target.isHostile)
+                    .filter((target) -> target.isHostile && !target.isBoss())
                     .filter((target) -> target.getDistance(this.getPosX(), this.getPosY()) <= this.searchDistance)
                     .findFirst()
                     .ifPresent(this::attackMob);
@@ -99,7 +108,6 @@ public class DefenseTowerEntity extends ObjectEntity {
 
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
 
-
         if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
             this.showRange = true;
             tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
@@ -109,9 +117,7 @@ public class DefenseTowerEntity extends ObjectEntity {
         } else {
             this.showRange = false;
             tooltips.add(Localization.translate("defensetower", "pressshift"));
-//            pressshift=Press §9SHIFT§0 to show more details
         }
-
         Screen.addTooltip(tooltips);
     }
 
@@ -130,9 +136,14 @@ public class DefenseTowerEntity extends ObjectEntity {
     }
 
     private void attackMob(Mob target) {
-        if (target.isVisible() && this.isSamePlace(target)) {
+        if (target.isVisible() && !target.removed() && this.isSamePlace(target)) {
             GameDamage damage = new GameDamage(GameDamage.DamageType.RANGED, this.damage);
-            Projectile projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, null);
+            Projectile projectile;
+            if (projectileStringID.contains("cannonball")) {
+                projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, 50, null);
+            } else {
+                projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, null);
+            }
             projectile.setTargetPrediction(target, -10.0F);
             projectile.moveDist(10.0);
             this.getLevel().entityManager.projectiles.add(projectile);
@@ -145,5 +156,20 @@ public class DefenseTowerEntity extends ObjectEntity {
 
     private float getPosY() {
         return this.y * 32 - 16;
+    }
+
+    @Override
+    public GameMessage getAttackerName() {
+        return new LocalMessage("defensetower", "attackername");
+    }
+
+    @Override
+    public DeathMessageTable getDeathMessages() {
+        return this.getDeathMessages("explosion", 3);
+    }
+
+    @Override
+    public Mob getFirstAttackOwner() {
+        return this.attacker;
     }
 }

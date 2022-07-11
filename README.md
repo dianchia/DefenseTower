@@ -24,9 +24,14 @@ This mod is required on both server and client.
 - The tower will attack the closest mob, even if it is behind a tree! So be sure to clear out all trees in tower's
   range.
 
+## Update Notes:
+
+- v1.0.2 - Tower now will not target bosses
+
 ## GitHub
 
 Bugs can be reported to [here](https://github.com/dianchia/DefenseTower/issues)
+For server, jar file can be found [here](https://github.com/dianchia/DefenseTower/releases)
 
 ## Collection
 

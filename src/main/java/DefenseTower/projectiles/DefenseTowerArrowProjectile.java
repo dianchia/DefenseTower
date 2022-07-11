@@ -15,10 +15,7 @@ import necesse.gfx.drawOptions.texture.TextureDrawOptions;
 import necesse.gfx.drawables.EntityDrawable;
 import necesse.gfx.drawables.LevelSortedDrawable;
 import necesse.gfx.drawables.OrderableDrawables;
-import necesse.level.gameObject.FenceGateObject;
-import necesse.level.gameObject.FenceObject;
-import necesse.level.gameObject.GameObject;
-import necesse.level.gameObject.WallObject;
+import necesse.level.gameObject.*;
 import necesse.level.maps.CollisionFilter;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
@@ -66,7 +63,7 @@ public class DefenseTowerArrowProjectile extends Projectile {
         CollisionFilter filter = super.getLevelCollisionFilter();
         filter.addFilter((tp) -> {
             GameObject object = tp.object().object;
-            return !(object instanceof DefenseTowerExtraObject || object instanceof WallObject || object instanceof FenceObject || object instanceof FenceGateObject);
+            return !(object instanceof DefenseTowerExtraObject || object instanceof WallObject || object instanceof FenceObject || object instanceof DoorObject);
         });
         return filter;
     }
