@@ -2,6 +2,7 @@
 defensetowerstone=Torre de Defesa (Pedra)
 defensetowerfire=Torre de Defesa (Fogo)
 defensetowerpoison=Torre de Defesa (Veneno)
+defensetowercannonball=Torre de Defesa (Canhão)
 
 [itemtooltip]
 defensetowertip=Uma torre para te ajudar a defender sua base! (também é um farol)
