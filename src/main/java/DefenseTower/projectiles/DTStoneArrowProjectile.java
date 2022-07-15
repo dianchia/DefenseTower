@@ -4,8 +4,8 @@ import necesse.entity.trails.Trail;
 
 import java.awt.*;
 
-public class DefenseTowerStoneArrowProjectile extends DefenseTowerArrowProjectile {
-    public DefenseTowerStoneArrowProjectile() {
+public class DTStoneArrowProjectile extends DTProjectile {
+    public DTStoneArrowProjectile() {
     }
 
     @Override

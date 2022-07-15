@@ -1,21 +1,19 @@
 package DefenseTower.projectiles;
 
 import DefenseTower.events.DefenseTowerExplosionEvent;
-import necesse.entity.levelEvent.explosionEvent.CannonBallExplosionEvent;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
 import necesse.entity.trails.Trail;
 
 import java.awt.*;
-import java.util.stream.Stream;
 
-public class DefenseTowerCannonBallProjectile extends DefenseTowerArrowProjectile {
+public class DTCannonBallProjectile extends DTProjectile {
     private long spawnTime;
 
-    public DefenseTowerCannonBallProjectile() {
+    public DTCannonBallProjectile() {
     }
 
-    public DefenseTowerCannonBallProjectile(float x, float y, float targetX, float targetY, int speed, int distance, GameDamage damage, int knockback, Mob owner) {
+    public DTCannonBallProjectile(float x, float y, float targetX, float targetY, int speed, int distance, GameDamage damage, int knockback, Mob owner) {
         this();
         this.setLevel(owner.getLevel());
         this.applyData(x, y, targetX, targetY, (float) speed, distance, damage, knockback, owner);

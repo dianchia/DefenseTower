@@ -3,9 +3,13 @@ defensetowerstone=Defense Tower (Stone)
 defensetowerfire=Defense Tower (Fire)
 defensetowerpoison=Defense Tower (Poison)
 defensetowercannonball=Defense Tower (Cannon)
+defensetowerstone_boss=Defense Tower (Stone)
+defensetowerfire_boss=Defense Tower (Fire)
+defensetowerpoison_boss=Defense Tower (Poison)
 
 [itemtooltip]
 defensetowertip=A tower to help you defend your base! (also a lighthouse)
+defensetowertargetboss=§9This tower target bosses
 
 [defensetower]
 attackstats=Damage: <damage>

@@ -6,7 +6,6 @@ import necesse.engine.control.Control;
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.tickManager.TickManager;
-import necesse.engine.util.Zoning;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.gfx.camera.GameCamera;
@@ -17,7 +16,6 @@ import necesse.gfx.gameTexture.GameTexture;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.level.maps.Level;
-import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.StaticMultiTile;
@@ -29,34 +27,51 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
     private final String towerType;
     private final float damage;
     private final long cooldown;
+    private final boolean targetBoss;
     protected int counterIDRight;
     private PlayerMob owner;
 
-    public DefenseTowerObject(String towerType, float damage, long cooldown) {
+    public DefenseTowerObject(String towerType, float damage, long cooldown, boolean targetBoss) {
         this.towerType = towerType;
         this.damage = damage;
         this.cooldown = cooldown;
         this.owner = null;
+        this.targetBoss = targetBoss;
     }
 
     public static void registerDefenseTower() {
-        DefenseTowerObject stoneTower1 = new DefenseTowerObject("stone", 35.0F, 700);
+        DefenseTowerObject stoneTower1 = new DefenseTowerObject("stone", 28.0F, 700, false);
         DefenseTowerObject2 stoneTower2 = new DefenseTowerObject2();
-        DefenseTowerObject fireTower1 = new DefenseTowerObject("fire", 50.0F, 1000);
+        DefenseTowerObject fireTower1 = new DefenseTowerObject("fire", 40.0F, 1000, false);
         DefenseTowerObject2 fireTower2 = new DefenseTowerObject2();
-        DefenseTowerObject poisonTower1 = new DefenseTowerObject("poison", 50.0F, 1000);
+        DefenseTowerObject poisonTower1 = new DefenseTowerObject("poison", 40.0F, 1000, false);
         DefenseTowerObject2 poisonTower2 = new DefenseTowerObject2();
-        DefenseTowerObject cannonballTower1 = new DefenseTowerObject("cannonball", 100.0F, 2000);
+        DefenseTowerObject cannonballTower1 = new DefenseTowerObject("cannonball", 80.0F, 2000, false);
         DefenseTowerObject2 cannonballTower2 = new DefenseTowerObject2();
 
-        int stoneID1 = ObjectRegistry.registerObject("defensetowerstone", stoneTower1, 10.0F, true);
-        int stoneID2 = ObjectRegistry.registerObject("defensetowerstone2", stoneTower2, 10.0F, false);
-        int fireID1 = ObjectRegistry.registerObject("defensetowerfire", fireTower1, 10.0F, true);
-        int fireID2 = ObjectRegistry.registerObject("defensetowerfire2", fireTower2, 10.0F, false);
-        int poisonID1 = ObjectRegistry.registerObject("defensetowerpoison", poisonTower1, 10.0F, true);
-        int poisonID2 = ObjectRegistry.registerObject("defensetowerpoison2", poisonTower2, 10.0F, false);
-        int cannonballID1 = ObjectRegistry.registerObject("defensetowercannonball", cannonballTower1, 10.0F, true);
-        int cannonballID2 = ObjectRegistry.registerObject("defensetowercannonball2", cannonballTower2, 10.0F, false);
+        DefenseTowerObject boss_stoneTower1 = new DefenseTowerObject("stone", 70.0F, 700, true);
+        DefenseTowerObject2 boss_stoneTower2 = new DefenseTowerObject2();
+        DefenseTowerObject boss_fireTower1 = new DefenseTowerObject("fire", 100.0F, 1000, true);
+        DefenseTowerObject2 boss_fireTower2 = new DefenseTowerObject2();
+        DefenseTowerObject boss_poisonTower1 = new DefenseTowerObject("poison", 100.0F, 1000, true);
+        DefenseTowerObject2 boss_poisonTower2 = new DefenseTowerObject2();
+
+        int stoneID1 = ObjectRegistry.registerObject("defensetowerstone", stoneTower1, 100.0F, true);
+        int stoneID2 = ObjectRegistry.registerObject("defensetowerstone2", stoneTower2, 100.0F, false);
+        int fireID1 = ObjectRegistry.registerObject("defensetowerfire", fireTower1, 100.0F, true);
+        int fireID2 = ObjectRegistry.registerObject("defensetowerfire2", fireTower2, 100.0F, false);
+        int poisonID1 = ObjectRegistry.registerObject("defensetowerpoison", poisonTower1, 100.0F, true);
+        int poisonID2 = ObjectRegistry.registerObject("defensetowerpoison2", poisonTower2, 100.0F, false);
+        int cannonballID1 = ObjectRegistry.registerObject("defensetowercannonball", cannonballTower1, 100.0F, true);
+        int cannonballID2 = ObjectRegistry.registerObject("defensetowercannonball2", cannonballTower2, 100.0F, false);
+
+        int boss_stoneID1 = ObjectRegistry.registerObject("defensetowerstone_boss", boss_stoneTower1, 200.0F, true);
+        int boss_stoneID2 = ObjectRegistry.registerObject("defensetowerstone2_boss", boss_stoneTower2, 200.0F, false);
+        int boss_fireID1 = ObjectRegistry.registerObject("defensetowerfire_boss", boss_fireTower1, 200.0F, true);
+        int boss_fireID2 = ObjectRegistry.registerObject("defensetowerfire2_boss", boss_fireTower2, 200.0F, false);
+        int boss_poisonID1 = ObjectRegistry.registerObject("defensetowerpoison_boss", boss_poisonTower1, 200.0F, true);
+        int boss_poisonID2 = ObjectRegistry.registerObject("defensetowerpoison2_boss", boss_poisonTower2, 200.0F, false);
+
 
         stoneTower1.setCounterIDs(stoneID1, stoneID2);
         stoneTower2.setCounterIDs(stoneID1, stoneID2);
@@ -66,11 +81,20 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         poisonTower2.setCounterIDs(poisonID1, poisonID2);
         cannonballTower1.setCounterIDs(cannonballID1, cannonballID2);
         cannonballTower2.setCounterIDs(cannonballID1, cannonballID2);
+
+        boss_stoneTower1.setCounterIDs(boss_stoneID1, boss_stoneID2);
+        boss_stoneTower2.setCounterIDs(boss_stoneID1, boss_stoneID2);
+        boss_fireTower1.setCounterIDs(boss_fireID1, boss_fireID2);
+        boss_fireTower2.setCounterIDs(boss_fireID1, boss_fireID2);
+        boss_poisonTower1.setCounterIDs(boss_poisonID1, boss_poisonID2);
+        boss_poisonTower2.setCounterIDs(boss_poisonID1, boss_poisonID2);
     }
 
     @Override
     public void loadTextures() {
         super.loadTextures();
+        String texture_name = this.towerType;
+
         this.texture_day = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_morning");
         this.texture_night = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_night");
     }
@@ -82,8 +106,11 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
 
     @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        return new DefenseTowerEntity(level, "defensetowerentity_" + this.towerType, x, y,
-                "defensetowerarrow_" + this.towerType, 512, this.damage, this.cooldown, this.owner);
+        String projectileStringID = "dtprojectile_" + this.towerType;
+        if (!projectileStringID.contains("cannonball")) {
+            projectileStringID = this.targetBoss ? projectileStringID : projectileStringID + "piercing";
+        }
+        return new DefenseTowerEntity(level, "defensetowerentity_" + this.towerType, x, y, projectileStringID, 512, this.damage, this.cooldown, this.owner, this.targetBoss);
     }
 
     @Override
@@ -96,6 +123,7 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         float attackSpeed = 1000.0F / this.cooldown;
 
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
+        if (this.targetBoss) tooltips.add(Localization.translate("itemtooltip", "defensetowertargetboss"));
         if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
             tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
             tooltips.add(Localization.translate("defensetower", "attacktype", "type", this.towerType));

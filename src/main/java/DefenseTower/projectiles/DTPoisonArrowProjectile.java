@@ -1,5 +1,6 @@
 package DefenseTower.projectiles;
 
+import necesse.engine.registries.BuffRegistry;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.buffs.ActiveBuff;
 import necesse.entity.particle.ParticleOption;
@@ -7,8 +8,8 @@ import necesse.entity.trails.Trail;
 
 import java.awt.*;
 
-public class DefenseTowerFireArrowProjectile extends DefenseTowerArrowProjectile {
-    public DefenseTowerFireArrowProjectile() {
+public class DTPoisonArrowProjectile extends DTProjectile {
+    public DTPoisonArrowProjectile() {
     }
 
     @Override
@@ -19,24 +20,21 @@ public class DefenseTowerFireArrowProjectile extends DefenseTowerArrowProjectile
 
     @Override
     public Color getParticleColor() {
-        return ParticleOption.randomFlameColor();
+        return new Color(115, 146, 42);
     }
 
-    @Override
     protected void modifySpinningParticle(ParticleOption particle) {
-        particle.givesLight(0.0F, 0.5F).lifeTime(1000);
+        particle.givesLight(75.0F, 0.5F).lifeTime(1000);
     }
 
-    @Override
     public Trail getTrail() {
-        return new Trail(this, this.getLevel(), this.getParticleColor().darker().darker(), 6.0F, 250, this.getHeight());
+        return new Trail(this, this.getLevel(), new Color(71, 90, 26), 12.0F, 250, this.getHeight());
     }
 
-    @Override
-    protected void doHitLogic(Mob mob, float x, float y) {
+    public void doHitLogic(Mob mob, float x, float y) {
         if (this.getLevel().isServerLevel()) {
             if (mob != null) {
-                ActiveBuff ab = new ActiveBuff("onfire", mob, 10.0F, this.getOwner());
+                ActiveBuff ab = new ActiveBuff(BuffRegistry.Debuffs.SPIDER_VENOM, mob, 10.0F, this.getOwner());
                 mob.addBuff(ab, true);
             }
         }
