@@ -7,8 +7,6 @@ import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.projectile.Projectile;
-import necesse.entity.projectile.StoneArrowProjectile;
-import necesse.entity.trails.Trail;
 import necesse.gfx.GameResources;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.TextureDrawOptions;
@@ -20,11 +18,10 @@ import necesse.level.maps.CollisionFilter;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 
-import java.awt.*;
 import java.util.List;
 
-public class DefenseTowerArrowProjectile extends Projectile {
-    public DefenseTowerArrowProjectile() {
+public class DTProjectile extends Projectile {
+    public DTProjectile() {
     }
 
     @Override

@@ -27,6 +27,7 @@ This mod is required on both server and client.
 ## Update Notes:
 
 - v1.0.2 - Tower now will not target bosses
+- v1.0.3 - New tower type: Tower which target bosses. Cost tungsten bar instead of iron bar.
 
 ## GitHub
 

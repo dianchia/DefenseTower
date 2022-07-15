@@ -8,9 +8,8 @@ import necesse.engine.localization.Localization;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.registries.ProjectileRegistry;
-import necesse.engine.save.LoadData;
-import necesse.engine.save.SaveData;
 import necesse.engine.tickManager.TickManager;
+import necesse.engine.util.gameAreaSearch.GameAreaStream;
 import necesse.entity.mobs.*;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.projectile.Projectile;
@@ -24,7 +23,6 @@ import necesse.level.maps.multiTile.MultiTile;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Objects;
 
 public class DefenseTowerEntity extends ObjectEntity implements Attacker {
 
@@ -36,12 +34,13 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     private final String projectileStringID;
     private final GameTileRange range;
     private final Mob attacker;
+    private final boolean targetBoss;
     private HudDrawElement rangeElement;
     private boolean showRange = false;
     private long cooldownTime = 0L;
     //endregion
 
-    public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown, PlayerMob owner) {
+    public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown, PlayerMob owner, boolean targetBoss) {
         super(level, type, x, y);
 
         this.projectileStringID = projectileStringID;
@@ -49,6 +48,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         this.searchDistance = attackDistance - 32;
         this.damage = damage;
         this.cooldown = cooldown;
+        this.targetBoss = targetBoss;
 
         this.attacker = new DefenseTowerAttackerMob();
         //this.getLevel().entityManager.addMob(this.attacker, x, y);
@@ -90,11 +90,12 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     public void serverTick() {
         super.serverTick();
         if (this.getLevel().isServerLevel() && !this.onCooldown()) {
-            this.getLevel().entityManager.mobs.streamArea(this.getPosX(), this.getPosY(), this.searchDistance)
-                    .filter((target) -> target.isHostile && !target.isBoss())
-                    .filter((target) -> target.getDistance(this.getPosX(), this.getPosY()) <= this.searchDistance)
-                    .findFirst()
-                    .ifPresent(this::attackMob);
+            GameAreaStream<Mob> mobs = this.getLevel().entityManager.mobs.streamArea(this.getPosX(), this.getPosY(), this.searchDistance)
+                    .filter((target) -> target.isHostile)
+                    .filter((target) -> target.getDistance(this.getPosX(), this.getPosY()) <= this.searchDistance);
+
+            if (!this.targetBoss) mobs = mobs.filter((target) -> !target.isBoss());
+            mobs.findFirst().ifPresent(this::attackMob);
             this.startCooldown();
         }
     }
@@ -107,6 +108,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         float attackSpeed = 1000.0F / this.cooldown;
 
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
+        if (this.targetBoss) tooltips.add(Localization.translate("itemtooltip", "defensetowertargetboss"));
 
         if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
             this.showRange = true;
@@ -125,6 +127,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     public void dispose() {
         super.dispose();
         if (this.rangeElement != null) this.rangeElement.remove();
+        if (this.attacker != null) this.attacker.remove();
     }
 
     private boolean onCooldown() {
