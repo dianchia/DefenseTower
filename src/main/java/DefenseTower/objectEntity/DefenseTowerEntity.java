@@ -43,7 +43,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown, PlayerMob owner, boolean targetBoss) {
         super(level, type, x, y);
 
-        this.projectileStringID = projectileStringID;
+        this.projectileStringID = targetBoss ? projectileStringID.replace("_boss", "") : projectileStringID;
         this.attackDistance = attackDistance;
         this.searchDistance = attackDistance - 32;
         this.damage = damage;
@@ -140,7 +140,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
 
     private void attackMob(Mob target) {
         if (target.isVisible() && !target.removed() && this.isSamePlace(target)) {
-            GameDamage damage = new GameDamage(GameDamage.DamageType.RANGED, this.damage);
+            GameDamage damage = new GameDamage(this.damage);
             Projectile projectile;
             if (projectileStringID.contains("cannonball")) {
                 projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, 50, null);

@@ -28,6 +28,8 @@ This mod is required on both server and client.
 
 - v1.0.2 - Tower now will not target bosses
 - v1.0.3 - New tower type: Tower which target bosses. Cost tungsten bar instead of iron bar.
+- v1.1.0 - Light of the tower can now be turned on and off using wires. Default to off, and turned on when wire is
+  active.
 
 ## GitHub
 

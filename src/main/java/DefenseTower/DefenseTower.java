@@ -63,7 +63,7 @@ public class DefenseTower {
                         new Ingredient("cannonball", 10)
                 }));
 
-        Recipes.registerModRecipe(new Recipe("defensetowerstone", 1, RecipeTechRegistry.WORKSTATION,
+        Recipes.registerModRecipe(new Recipe("defensetowerstone_boss", 1, RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{
                         new Ingredient("tungstenbar", 10),
                         new Ingredient("torch", 20),
@@ -71,7 +71,7 @@ public class DefenseTower {
                         new Ingredient("anylog", 50),
                         new Ingredient("stonearrow", 100)
                 }));
-        Recipes.registerModRecipe(new Recipe("defensetowerfire", 1, RecipeTechRegistry.WORKSTATION,
+        Recipes.registerModRecipe(new Recipe("defensetowerfire_boss", 1, RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{
                         new Ingredient("tungstenbar", 10),
                         new Ingredient("torch", 20),
@@ -79,7 +79,7 @@ public class DefenseTower {
                         new Ingredient("anylog", 50),
                         new Ingredient("firearrow", 100)
                 }));
-        Recipes.registerModRecipe(new Recipe("defensetowerpoison", 1, RecipeTechRegistry.WORKSTATION,
+        Recipes.registerModRecipe(new Recipe("defensetowerpoison_boss", 1, RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{
                         new Ingredient("tungstenbar", 10),
                         new Ingredient("torch", 20),
