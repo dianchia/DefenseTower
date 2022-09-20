@@ -49,11 +49,11 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         DefenseTowerObject cannonballTower1 = new DefenseTowerObject("cannonball", 80.0F, 2000, false);
         DefenseTowerObject2 cannonballTower2 = new DefenseTowerObject2();
 
-        DefenseTowerObject boss_stoneTower1 = new DefenseTowerObject("stone", 70.0F, 700, true);
+        DefenseTowerObject boss_stoneTower1 = new DefenseTowerObject("stone_boss", 70.0F, 700, true);
         DefenseTowerObject2 boss_stoneTower2 = new DefenseTowerObject2();
-        DefenseTowerObject boss_fireTower1 = new DefenseTowerObject("fire", 100.0F, 1000, true);
+        DefenseTowerObject boss_fireTower1 = new DefenseTowerObject("fire_boss", 100.0F, 1000, true);
         DefenseTowerObject2 boss_fireTower2 = new DefenseTowerObject2();
-        DefenseTowerObject boss_poisonTower1 = new DefenseTowerObject("poison", 100.0F, 1000, true);
+        DefenseTowerObject boss_poisonTower1 = new DefenseTowerObject("poison_boss", 100.0F, 1000, true);
         DefenseTowerObject2 boss_poisonTower2 = new DefenseTowerObject2();
 
         int stoneID1 = ObjectRegistry.registerObject("defensetowerstone", stoneTower1, 100.0F, true);
@@ -93,10 +93,10 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
     @Override
     public void loadTextures() {
         super.loadTextures();
-        String texture_name = this.towerType;
 
         this.texture_day = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_morning");
         this.texture_night = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_night");
+        this.texture = this.texture_day;
     }
 
     @Override
@@ -146,7 +146,8 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
 
-        GameTexture texture = level.getWorldEntity().isNight() ? this.texture_night : this.texture_day;
+        //GameTexture texture = level.getWorldEntity().isNight() ? this.texture_night : this.texture_day;
+        GameTexture texture = this.texture;
 
         final TextureDrawOptions options = texture.initDraw().light(light).pos(drawX, drawY - this.texture_day.getHeight() + 32);
         list.add(new LevelSortedDrawable(this, tileX, tileY) {
@@ -175,19 +176,8 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         return this.texture_day;
     }
 
-    //@Override
-    //public String canPlace(Level level, int x, int y, int rotation) {
-    //    if (this.owner != null) {
-    //        SettlementLevelData levelData = SettlementLevelData.getSettlementData(this.owner.getLevel());
-    //        if (levelData != null) {
-    //            Zoning defendZone = levelData.getDefendZone();
-    //            System.out.printf("Defend Zone at: (%d, %d)", defendZone.getTileBounds().x, defendZone.getTileBounds().y);
-    //        } else {
-    //            System.out.println("SettlementLevelData is null");
-    //        }
-    //    } else {
-    //        System.out.println("Owner is null");
-    //    }
-    //    return super.canPlace(level, x, y, rotation);
-    //}
+    @Override
+    protected void updateTexture(Level level, int x, int y) {
+        this.texture = this.isActive(level, x, y) ? this.texture_day : this.texture_night;
+    }
 }

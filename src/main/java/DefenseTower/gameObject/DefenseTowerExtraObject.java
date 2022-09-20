@@ -1,9 +1,9 @@
 package DefenseTower.gameObject;
 
+import necesse.engine.GameLog;
 import necesse.engine.localization.Localization;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
-import necesse.gfx.camera.GameCamera;
 import necesse.gfx.gameTexture.GameTexture;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
@@ -13,12 +13,12 @@ import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 
 import java.awt.*;
-import java.util.Objects;
 
 public abstract class DefenseTowerExtraObject extends GameObject {
     public String lastChangedTime = "morning";
     protected GameTexture texture_day;
     protected GameTexture texture_night;
+    protected GameTexture texture;
 
     public DefenseTowerExtraObject() {
         super(new Rectangle(32, 32));
@@ -62,27 +62,20 @@ public abstract class DefenseTowerExtraObject extends GameObject {
 
     @Override
     public int getLightLevel(Level level, int x, int y) {
-        return this.lightLevel;
-//        return level.getWorldEntity().isNight() ? this.lightLevel : 0;
+        return this.isActive(level, x, y) ? 0 : this.lightLevel;
     }
 
     @Override
-    public void tick(Level level, int x, int y) {
-        super.tick(level, x, y);
-        if (this.shouldUpdateLight(level)) {
-            Rectangle rect = this.getMultiTile(0).getTileRectangle(x, y);
-            level.lightManager.updateStaticLight(rect.x, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1, true);
-        }
+    public void onWireUpdate(Level level, int x, int y, int wireID, boolean active) {
+        Rectangle rect = this.getMultiTile(0).getTileRectangle(x, y);
+        level.lightManager.updateStaticLight(rect.x, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1, true);
+        this.updateTexture(level, x, y);
     }
 
-    protected boolean shouldUpdateLight(Level level) {
-        if (level.getWorldEntity().isNight() && Objects.equals(this.lastChangedTime, "morning")) {
-            this.lastChangedTime = "night";
-            return true;
-        } else if (!level.getWorldEntity().isNight() && Objects.equals(this.lastChangedTime, "night")) {
-            this.lastChangedTime = "morning";
-            return true;
-        }
-        return false;
+    protected boolean isActive(Level level, int x, int y) {
+        return this.getMultiTile(0).streamIDs(x, y).noneMatch((c) -> level.wireManager.isWireActiveAny(c.tileX, c.tileY));
+    }
+
+    protected void updateTexture(Level level, int x, int y) {
     }
 }
