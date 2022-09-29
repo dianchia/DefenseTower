@@ -1,8 +1,8 @@
 # Mod Information
 
-Mod version: 1.0.1
+Mod version: 1.1.1
 
-Game version: 0.21.23
+Game version: 0.21.25
 
 # Defense Tower
 
@@ -30,6 +30,7 @@ This mod is required on both server and client.
 - v1.0.3 - New tower type: Tower which target bosses. Cost tungsten bar instead of iron bar.
 - v1.1.0 - Light of the tower can now be turned on and off using wires. Default to off, and turned on when wire is
   active.
+- v1.1.1 - Fixed game crashed when hovering over tower and updated to game version 0.21.25
 
 ## GitHub
 

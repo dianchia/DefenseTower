@@ -15,9 +15,6 @@ import necesse.level.maps.Level;
 import java.awt.*;
 
 public abstract class DefenseTowerExtraObject extends GameObject {
-    public String lastChangedTime = "morning";
-    protected GameTexture texture_day;
-    protected GameTexture texture_night;
     protected GameTexture texture;
 
     public DefenseTowerExtraObject() {
@@ -69,13 +66,9 @@ public abstract class DefenseTowerExtraObject extends GameObject {
     public void onWireUpdate(Level level, int x, int y, int wireID, boolean active) {
         Rectangle rect = this.getMultiTile(0).getTileRectangle(x, y);
         level.lightManager.updateStaticLight(rect.x, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1, true);
-        this.updateTexture(level, x, y);
     }
 
     protected boolean isActive(Level level, int x, int y) {
         return this.getMultiTile(0).streamIDs(x, y).noneMatch((c) -> level.wireManager.isWireActiveAny(c.tileX, c.tileY));
-    }
-
-    protected void updateTexture(Level level, int x, int y) {
     }
 }

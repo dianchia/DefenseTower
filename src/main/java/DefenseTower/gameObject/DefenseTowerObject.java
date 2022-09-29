@@ -94,9 +94,10 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
     public void loadTextures() {
         super.loadTextures();
 
-        this.texture_day = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_morning");
-        this.texture_night = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_night");
-        this.texture = this.texture_day;
+        this.texture = GameTexture.fromFile("objects/defensetower_" + this.towerType);
+        //this.texture_day = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_morning");
+        //this.texture_night = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_night");
+        //this.texture = this.texture_day;
     }
 
     @Override
@@ -145,11 +146,9 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
+        boolean active = this.isActive(level, tileX, tileY);
 
-        //GameTexture texture = level.getWorldEntity().isNight() ? this.texture_night : this.texture_day;
-        GameTexture texture = this.texture;
-
-        final TextureDrawOptions options = texture.initDraw().light(light).pos(drawX, drawY - this.texture_day.getHeight() + 32);
+        final TextureDrawOptions options = this.texture.initDraw().sprite(active ? 0 : 1, 0, 64, this.texture.getHeight()).light(light).pos(drawX, drawY - this.texture.getHeight() + 32);
         list.add(new LevelSortedDrawable(this, tileX, tileY) {
             @Override
             public int getSortY() {
@@ -168,16 +167,11 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
         if (this.owner == null) this.owner = player;
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
-        this.texture_day.initDraw().alpha(alpha).draw(drawX, drawY - this.texture_day.getHeight() + 32);
+        this.texture.initDraw().sprite(0, 0, 64, this.texture.getHeight()).alpha(alpha).draw(drawX, drawY - this.texture.getHeight() + 32);
     }
 
     @Override
     public GameTexture generateItemTexture() {
-        return this.texture_day;
-    }
-
-    @Override
-    protected void updateTexture(Level level, int x, int y) {
-        this.texture = this.isActive(level, x, y) ? this.texture_day : this.texture_night;
+        return GameTexture.fromFile("items/defensetower_" + this.towerType);
     }
 }

@@ -17,6 +17,7 @@ import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.SharedTextureDrawOptions;
 import necesse.gfx.drawables.SortedDrawable;
 import necesse.gfx.gameTooltips.StringTooltips;
+import necesse.gfx.gameTooltips.TooltipLocation;
 import necesse.level.maps.Level;
 import necesse.level.maps.hudManager.HudDrawElement;
 import necesse.level.maps.multiTile.MultiTile;
@@ -120,7 +121,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
             this.showRange = false;
             tooltips.add(Localization.translate("defensetower", "pressshift"));
         }
-        Screen.addTooltip(tooltips);
+        Screen.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
     }
 
     @Override
