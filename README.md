@@ -1,8 +1,8 @@
 # Mod Information
 
-Mod version: 1.1.1
+Mod version: 1.1.2
 
-Game version: 0.21.25
+Game version: 0.21.27
 
 # Defense Tower
 
@@ -31,6 +31,7 @@ This mod is required on both server and client.
 - v1.1.0 - Light of the tower can now be turned on and off using wires. Default to off, and turned on when wire is
   active.
 - v1.1.1 - Fixed game crashed when hovering over tower and updated to game version 0.21.25
+- v1.1.2 - Updated to game version 0.21.27
 
 ## GitHub
 

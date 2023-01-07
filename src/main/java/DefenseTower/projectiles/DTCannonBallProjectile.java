@@ -4,6 +4,7 @@ import DefenseTower.events.DefenseTowerExplosionEvent;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
 import necesse.entity.trails.Trail;
+import necesse.level.maps.LevelObjectHit;
 
 import java.awt.*;
 
@@ -39,7 +40,7 @@ public class DTCannonBallProjectile extends DTProjectile {
     }
 
     @Override
-    protected void doHitLogic(Mob mob, float x, float y) {
+    public void doHitLogic(Mob mob, LevelObjectHit objectHit, float x, float y) {
         if (this.getLevel().isServerLevel()) {
             DefenseTowerExplosionEvent event = new DefenseTowerExplosionEvent(x, y, this.getDamage(), this.getOwner());
             this.getLevel().entityManager.addLevelEvent(event);

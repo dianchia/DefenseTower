@@ -5,6 +5,7 @@ import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.buffs.ActiveBuff;
 import necesse.entity.particle.ParticleOption;
 import necesse.entity.trails.Trail;
+import necesse.level.maps.LevelObjectHit;
 
 import java.awt.*;
 
@@ -31,7 +32,7 @@ public class DTPoisonArrowProjectile extends DTProjectile {
         return new Trail(this, this.getLevel(), new Color(71, 90, 26), 12.0F, 250, this.getHeight());
     }
 
-    public void doHitLogic(Mob mob, float x, float y) {
+    public void doHitLogic(Mob mob, LevelObjectHit objectHit, float x, float y) {
         if (this.getLevel().isServerLevel()) {
             if (mob != null) {
                 ActiveBuff ab = new ActiveBuff(BuffRegistry.Debuffs.SPIDER_VENOM, mob, 10.0F, this.getOwner());

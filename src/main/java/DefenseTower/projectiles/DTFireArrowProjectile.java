@@ -4,6 +4,7 @@ import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.buffs.ActiveBuff;
 import necesse.entity.particle.ParticleOption;
 import necesse.entity.trails.Trail;
+import necesse.level.maps.LevelObjectHit;
 
 import java.awt.*;
 
@@ -33,7 +34,7 @@ public class DTFireArrowProjectile extends DTProjectile {
     }
 
     @Override
-    protected void doHitLogic(Mob mob, float x, float y) {
+    public void doHitLogic(Mob mob, LevelObjectHit objectHit, float x, float y) {
         if (this.getLevel().isServerLevel()) {
             if (mob != null) {
                 ActiveBuff ab = new ActiveBuff("onfire", mob, 10.0F, this.getOwner());
