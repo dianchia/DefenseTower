@@ -1,0 +1,19 @@
+[object]
+defensetowerstone=Torre de Defensa (Piedra)
+defensetowerfire=Torre de Defensa (Fuego)
+defensetowerpoison=Torre de Defensa (Veneno)
+defensetowercannonball=Torre de Defensa (Bala de Cañón)
+defensetowerstone_boss=Torre de Defensa (Piedra)
+defensetowerfire_boss=Torre de Defensa (Fuego)
+defensetowerpoison_boss=Torre de Defensa (Veneno)
+
+[itemtooltip]
+defensetowertip=¡Una torre para ayudarte a defender tu base! (también un faro)
+defensetowertargetboss=§9Esta torre apunta a los jefes
+
+[defensetower]
+attackstats=Daño: <damage>
+attacktype=Tipo de Daño: <type>
+attackspeed=Velocidad de Ataque: <speed>/seg
+rangestats=Distancia de ataque: <range> azulejos
+pressshift=Presiona [input=invquickmove] para mostrar más detalles
