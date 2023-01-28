@@ -1,0 +1,19 @@
+[object]
+defensetowerstone=Tour de défense (pierre)
+defensetowerfire=Tour de défense (feu)
+defensetowerpoison=Tour de défense (poison)
+defensetowercannonball=Tour de défense (boulet de canon)
+defensetowerstone_boss=Tour de défense (pierre)
+defensetowerfire_boss=Tour de défense (feu)
+defensetowerpoison_boss=Tour de défense (poison)
+
+[itemtooltip]
+defensetowertip=Une tour pour vous aider à défendre votre base! (aussi un phare)
+defensetowertargetboss=§9Cette tour cible les boss
+
+[defensetower]
+attackstats=Dégâts: <damage>
+attacktype=Type de dégâts: <type>
+attackspeed=Vitesse d'attaque: <speed>/sec
+rangestats=Distance d'attaque: <range> tuiles
+pressshift=Appuyez sur [input=invquickmove] pour afficher plus de détails
