@@ -51,7 +51,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         this.cooldown = cooldown;
         this.targetBoss = targetBoss;
 
-        this.attacker = new DefenseTowerAttackerMob();
+        this.attacker = owner;
         //this.getLevel().entityManager.addMob(this.attacker, x, y);
 
         MultiTile multiTile = this.getObject().getMultiTile(0);

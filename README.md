@@ -1,8 +1,8 @@
 # Mod Information
 
-Mod version: 1.1.3
+Mod version: 1.1.4
 
-Game version: 0.21.28
+Game version: 0.21.29
 
 # Defense Tower
 
@@ -33,6 +33,7 @@ This mod is required on both server and client.
 - v1.1.1 - Fixed game crashed when hovering over tower and updated to game version 0.21.25
 - v1.1.2 - Updated to game version 0.21.27
 - v1.1.3 - Updated to game version 0.21.28
+- v1.1.4 - Updated to game version 0.21.29
 
 ## GitHub
 
