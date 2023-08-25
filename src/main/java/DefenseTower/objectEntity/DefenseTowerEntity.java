@@ -56,7 +56,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
 
         MultiTile multiTile = this.getObject().getMultiTile(0);
         Rectangle tileRectangle = multiTile.getTileRectangle(0, 0);
-        this.range = new GameTileRange((float) (searchDistance / 32) - 1, tileRectangle);
+        this.range = new GameTileRange((searchDistance / 32) - 1, tileRectangle);
     }
 
     @Override
