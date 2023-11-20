@@ -1,8 +1,8 @@
 # Mod Information
 
-Mod version: 1.1.5
+Mod version: 1.1.6
 
-Game version: 0.22.0
+Game version: 0.22.1
 
 # Defense Tower
 
@@ -35,6 +35,7 @@ This mod is required on both server and client.
 - v1.1.3 - Updated to game version 0.21.28
 - v1.1.4 - Updated to game version 0.21.29
 - v1.1.5 - Updated to game version 0.22.0
+- v1.1.6 - Updated to game version 0.22.1
 
 ## GitHub
 
