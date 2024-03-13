@@ -30,6 +30,6 @@ public class DefenseTowerExplosionEvent extends ExplosionEvent {
     @Override
     protected void playExplosionEffects() {
         Screen.playSound(GameResources.explosionHeavy, SoundEffect.effect(this.x, this.y).volume(2.0F).pitch(1.3F));
-        this.level.getClient().startCameraShake(this.x, this.y, 400, 50, 3.0F, 3.0F);
+        this.level.getClient().startCameraShake(this.x, this.y, 400, 50, 10.0F, 10.0F, true);
     }
 }

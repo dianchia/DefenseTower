@@ -25,7 +25,7 @@ public class DTCannonBallProjectile extends DTProjectile {
         super.init();
         this.setWidth(15.0F);
         this.spawnTime = this.getWorldEntity().getTime();
-        this.doesImpactDmg = false;
+        this.doesImpactDamage = false;
         this.trailOffset = 0.0F;
     }
 
