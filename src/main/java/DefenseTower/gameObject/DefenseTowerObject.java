@@ -1,11 +1,12 @@
 package DefenseTower.gameObject;
 
 import DefenseTower.objectEntity.DefenseTowerEntity;
-import necesse.engine.Screen;
-import necesse.engine.control.Control;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.input.Control;
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ObjectRegistry;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.gfx.camera.GameCamera;
@@ -24,6 +25,7 @@ import java.awt.*;
 import java.util.List;
 
 public class DefenseTowerObject extends DefenseTowerExtraObject {
+    private final GameWindow gameWindow;
     private final String towerType;
     private final float damage;
     private final long cooldown;
@@ -32,6 +34,7 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
     private PlayerMob owner;
 
     public DefenseTowerObject(String towerType, float damage, long cooldown, boolean targetBoss) {
+        this.gameWindow = WindowManager.getWindow();
         this.towerType = towerType;
         this.damage = damage;
         this.cooldown = cooldown;
@@ -93,11 +96,7 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
     @Override
     public void loadTextures() {
         super.loadTextures();
-
         this.texture = GameTexture.fromFile("objects/defensetower_" + this.towerType);
-        //this.texture_day = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_morning");
-        //this.texture_night = GameTexture.fromFile("objects/defensetower_" + this.towerType + "_night");
-        //this.texture = this.texture_day;
     }
 
     @Override
@@ -125,7 +124,8 @@ public class DefenseTowerObject extends DefenseTowerExtraObject {
 
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
         if (this.targetBoss) tooltips.add(Localization.translate("itemtooltip", "defensetowertargetboss"));
-        if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
+
+        if (gameWindow.isKeyDown(Control.getControl("invquickmove").getKey())) {
             tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
             tooltips.add(Localization.translate("defensetower", "attacktype", "type", this.towerType));
             tooltips.add(Localization.translate("defensetower", "attackspeed", "speed", String.format("%.2f", attackSpeed)));

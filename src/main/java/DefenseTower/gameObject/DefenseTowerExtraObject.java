@@ -1,6 +1,5 @@
 package DefenseTower.gameObject;
 
-import necesse.engine.GameLog;
 import necesse.engine.localization.Localization;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
@@ -13,6 +12,7 @@ import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 
 import java.awt.*;
+import java.util.List;
 
 public abstract class DefenseTowerExtraObject extends GameObject {
     protected GameTexture texture;
@@ -39,9 +39,9 @@ public abstract class DefenseTowerExtraObject extends GameObject {
     public abstract ObjectEntity getNewObjectEntity(Level level, int x, int y);
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
-        list.add(new ObjectHoverHitbox(tileX, tileY, 0, -32, 32, 32));
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
+        list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -32, 32, 32));
         return list;
     }
 
@@ -58,13 +58,13 @@ public abstract class DefenseTowerExtraObject extends GameObject {
     }
 
     @Override
-    public int getLightLevel(Level level, int x, int y) {
-        return this.isActive(level, x, y) ? 0 : this.lightLevel;
+    public int getLightLevel(Level level, int layerID, int tileX, int tileY) {
+        return this.isActive(level, tileX, tileY) ? 0 : this.lightLevel;
     }
 
     @Override
-    public void onWireUpdate(Level level, int x, int y, int wireID, boolean active) {
-        Rectangle rect = this.getMultiTile(0).getTileRectangle(x, y);
+    public void onWireUpdate(Level level, int layerID, int tileX, int tileY, int wireID, boolean active) {
+        Rectangle rect = this.getMultiTile(0).getTileRectangle(tileX, tileY);
         level.lightManager.updateStaticLight(rect.x, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1, true);
     }
 

@@ -41,7 +41,7 @@ public class DTCannonBallProjectile extends DTProjectile {
 
     @Override
     public void doHitLogic(Mob mob, LevelObjectHit objectHit, float x, float y) {
-        if (this.getLevel().isServerLevel()) {
+        if (this.getLevel().isServer()) {
             DefenseTowerExplosionEvent event = new DefenseTowerExplosionEvent(x, y, this.getDamage(), this.getOwner());
             this.getLevel().entityManager.addLevelEvent(event);
         }

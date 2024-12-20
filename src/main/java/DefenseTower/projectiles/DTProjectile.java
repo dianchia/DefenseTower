@@ -1,9 +1,9 @@
 package DefenseTower.projectiles;
 
 import DefenseTower.gameObject.DefenseTowerExtraObject;
-import necesse.engine.Screen;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.sound.SoundEffect;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.sound.SoundManager;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.projectile.Projectile;
@@ -71,6 +71,6 @@ public class DTProjectile extends Projectile {
 
     @Override
     protected void playHitSound(float x, float y) {
-        Screen.playSound(GameResources.bowhit, SoundEffect.effect(x, y));
+        SoundManager.playSound(GameResources.bowhit, SoundEffect.effect(x, y));
     }
 }

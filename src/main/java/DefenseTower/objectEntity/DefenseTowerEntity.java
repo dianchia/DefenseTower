@@ -1,21 +1,22 @@
 package DefenseTower.objectEntity;
 
-import DefenseTower.mobs.DefenseTowerAttackerMob;
 import necesse.engine.GameTileRange;
-import necesse.engine.Screen;
-import necesse.engine.control.Control;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.input.Control;
 import necesse.engine.localization.Localization;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.registries.ProjectileRegistry;
-import necesse.engine.tickManager.TickManager;
 import necesse.engine.util.gameAreaSearch.GameAreaStream;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.*;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.projectile.Projectile;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.SharedTextureDrawOptions;
 import necesse.gfx.drawables.SortedDrawable;
+import necesse.gfx.gameTooltips.GameTooltipManager;
 import necesse.gfx.gameTooltips.StringTooltips;
 import necesse.gfx.gameTooltips.TooltipLocation;
 import necesse.level.maps.Level;
@@ -36,6 +37,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     private final GameTileRange range;
     private final Mob attacker;
     private final boolean targetBoss;
+    private final GameWindow gameWindow;
     private HudDrawElement rangeElement;
     private boolean showRange = false;
     private long cooldownTime = 0L;
@@ -50,7 +52,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         this.damage = damage;
         this.cooldown = cooldown;
         this.targetBoss = targetBoss;
-
+        this.gameWindow = WindowManager.getWindow();
         this.attacker = owner;
         //this.getLevel().entityManager.addMob(this.attacker, x, y);
 
@@ -90,7 +92,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     @Override
     public void serverTick() {
         super.serverTick();
-        if (this.getLevel().isServerLevel() && !this.onCooldown()) {
+        if (this.getLevel().isServer() && !this.onCooldown()) {
             GameAreaStream<Mob> mobs = this.getLevel().entityManager.mobs.streamArea(this.getPosX(), this.getPosY(), this.searchDistance)
                     .filter((target) -> target.isHostile)
                     .filter((target) -> target.getDistance(this.getPosX(), this.getPosY()) <= this.searchDistance);
@@ -111,7 +113,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
         if (this.targetBoss) tooltips.add(Localization.translate("itemtooltip", "defensetowertargetboss"));
 
-        if (Screen.isKeyDown(Control.getControl("invquickmove").getKey())) {
+        if (this.gameWindow.isKeyDown(Control.getControl("invquickmove").getKey())) {
             this.showRange = true;
             tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
             tooltips.add(Localization.translate("defensetower", "attacktype", "type", attackType));
@@ -121,7 +123,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
             this.showRange = false;
             tooltips.add(Localization.translate("defensetower", "pressshift"));
         }
-        Screen.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
+        GameTooltipManager.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
     }
 
     @Override

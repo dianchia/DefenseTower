@@ -33,7 +33,7 @@ public class DTPoisonArrowProjectile extends DTProjectile {
     }
 
     public void doHitLogic(Mob mob, LevelObjectHit objectHit, float x, float y) {
-        if (this.getLevel().isServerLevel()) {
+        if (this.getLevel().isServer()) {
             if (mob != null) {
                 ActiveBuff ab = new ActiveBuff(BuffRegistry.Debuffs.SPIDER_VENOM, mob, 10.0F, this.getOwner());
                 mob.addBuff(ab, true);

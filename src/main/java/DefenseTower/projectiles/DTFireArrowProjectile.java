@@ -35,7 +35,7 @@ public class DTFireArrowProjectile extends DTProjectile {
 
     @Override
     public void doHitLogic(Mob mob, LevelObjectHit objectHit, float x, float y) {
-        if (this.getLevel().isServerLevel()) {
+        if (this.getLevel().isServer()) {
             if (mob != null) {
                 ActiveBuff ab = new ActiveBuff("onfire", mob, 10.0F, this.getOwner());
                 mob.addBuff(ab, true);

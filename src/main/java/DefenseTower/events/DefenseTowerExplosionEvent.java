@@ -1,7 +1,7 @@
 package DefenseTower.events;
 
-import necesse.engine.Screen;
 import necesse.engine.sound.SoundEffect;
+import necesse.engine.sound.SoundManager;
 import necesse.entity.levelEvent.explosionEvent.ExplosionEvent;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
@@ -29,7 +29,7 @@ public class DefenseTowerExplosionEvent extends ExplosionEvent {
 
     @Override
     protected void playExplosionEffects() {
-        Screen.playSound(GameResources.explosionHeavy, SoundEffect.effect(this.x, this.y).volume(2.0F).pitch(1.3F));
+        SoundManager.playSound(GameResources.explosionHeavy, SoundEffect.effect(this.x, this.y).volume(2.0F).pitch(1.3F));
         this.level.getClient().startCameraShake(this.x, this.y, 400, 50, 10.0F, 10.0F, true);
     }
 }

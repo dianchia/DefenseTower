@@ -3,13 +3,11 @@ package DefenseTower.gameObject;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.gfx.camera.GameCamera;
-import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.StaticMultiTile;
 
 import java.awt.*;
-import java.util.List;
 
 public class DefenseTowerObject2 extends DefenseTowerExtraObject {
     protected int counterIDLeft;
