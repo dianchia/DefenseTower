@@ -1,19 +1,22 @@
 [object]
-defensetowerstone=Torre de Defesa (Pedra)
-defensetowerfire=Torre de Defesa (Fogo)
-defensetowerpoison=Torre de Defesa (Veneno)
-defensetowercannonball=Torre de Defesa (Canhão)
-defensetowerstone_boss=Torre de Defesa contra Boss (Pedra)
-defensetowerfire_boss=Torre de Defesa contra Boss (Fogo)
-defensetowerpoison_boss=Torre de Defesa contra Boss (Veneno)
+defensetowerstone=Torres de Defesa (Pedra)
+defensetowerfire=Torres de Defesa (Fogo)
+defensetowerpoison=Torres de Defesa (Veneno)
+defensetowercannonball=Torres de Defesa (Canhão)
+defensetowerstone_boss=Torres de Defesa (Pedra)
+defensetowerfire_boss=Torres de Defesa (Fogo)
+defensetowerpoison_boss=Torres de Defesa (Veneno)
 
 [itemtooltip]
-defensetowertip=Uma torre para te ajudar a defender sua base! (também é um farol)
-defensetowertargetboss=§9Essa torre ataca os boss's
+defensetowertip=Uma torre para ajudar a defender sua base! (também funciona como um farol)
+defensetowertargetboss=§9Esta torre mira em chefes
 
 [defensetower]
 attackstats=Dano: <damage>
 attacktype=Tipo de Dano: <type>
-attackspeed=Velocidade de Ataque: <speed>/sec
+attackspeed=Velocidade de Ataque: <speed>/seg
 rangestats=Distância de ataque: <range> blocos
-pressshift=Aperte [input=invquickmove] para exibir mais detalhes
+pressshift=Pressione [input=invquickmove] para mostrar mais detalhes
+
+[mob]
+defensetowerattacker=Torre de Defesa
