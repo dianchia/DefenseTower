@@ -69,7 +69,13 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
             @Override
             public void addDrawables(List<SortedDrawable> list, GameCamera gameCamera, PlayerMob playerMob) {
                 if (DefenseTowerEntity.this.showRange) {
-                    final SharedTextureDrawOptions options = DefenseTowerEntity.this.range.getDrawOptions(new Color(255, 255, 255, 120), new Color(255, 255, 255, 50), DefenseTowerEntity.this.getTileX(), DefenseTowerEntity.this.getTileY(), gameCamera);
+                    final SharedTextureDrawOptions options = DefenseTowerEntity.this.range.getDrawOptions(
+                            new Color(255, 255, 255, 120),
+                            new Color(255, 255, 255, 50),
+                            DefenseTowerEntity.this.tileX,
+                            DefenseTowerEntity.this.tileY,
+                            gameCamera
+                    );
                     if (options != null) {
                         list.add(new SortedDrawable() {
                             @Override
@@ -142,7 +148,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     }
 
     private void attackMob(Mob target) {
-        if (target.isVisible() && !target.removed() && this.isSamePlace(target)) {
+        if (target.isVisible() && !target.removed() && this.attacker.isSamePlace(target)) {
             GameDamage damage = new GameDamage(this.damage);
             Projectile projectile;
             if (projectileStringID.contains("cannonball")) {
@@ -157,11 +163,11 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     }
 
     private float getPosX() {
-        return this.x * 32 + 32;
+        return this.tileX * 32 + 32;
     }
 
     private float getPosY() {
-        return this.y * 32 - 16;
+        return this.tileY * 32 - 16;
     }
 
     @Override
