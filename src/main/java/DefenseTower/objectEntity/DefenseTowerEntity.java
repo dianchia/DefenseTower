@@ -148,7 +148,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     }
 
     private void attackMob(Mob target) {
-        if (target.isVisible() && !target.removed() && this.attacker.isSamePlace(target)) {
+        if (target.isVisible() && !target.removed() && isSamePlace(target)) {
             GameDamage damage = new GameDamage(this.damage);
             Projectile projectile;
             if (projectileStringID.contains("cannonball")) {
@@ -168,6 +168,10 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
 
     private float getPosY() {
         return this.tileY * 32 - 16;
+    }
+
+    private boolean isSamePlace(Mob target) {
+        return this.getLevel() != null && target.getLevel() != null && this.getLevel().isSamePlace(target.getLevel());
     }
 
     @Override
