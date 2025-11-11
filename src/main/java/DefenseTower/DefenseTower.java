@@ -13,7 +13,7 @@ import necesse.inventory.recipe.Recipes;
 @ModEntry
 public class DefenseTower {
     public void init() {
-        DefenseTowerObject.registerDefenseTower();
+        int[] ids = DefenseTowerObject.registerDefenseTower();
         MobRegistry.registerMob("defensetowerattacker", DefenseTowerAttackerMob.class, false);
 
         ProjectileRegistry.registerProjectile("dtprojectile_stone", DTStoneArrowProjectile.class, "stonearrow", "arrow_shadow");

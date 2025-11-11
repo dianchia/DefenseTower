@@ -1,5 +1,6 @@
 package DefenseTower.gameObject;
 
+import DefenseTower.objectEntity.DefenseTowerEntity;
 import necesse.engine.localization.Localization;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
@@ -15,18 +16,14 @@ import java.awt.*;
 import java.util.List;
 
 public abstract class DefenseTowerExtraObject extends GameObject {
-    protected GameTexture texture;
-
     public DefenseTowerExtraObject() {
         super(new Rectangle(32, 32));
         this.mapColor = new Color(107, 107, 107);
         this.displayMapTooltip = true;
         this.toolType = ToolType.PICKAXE;
         this.objectHealth = 100;
-        this.stackSize = 10;
-        this.drawDamage = false;
-
         this.isLightTransparent = true;
+        this.hoverHitbox = new Rectangle(0, -32, 32, 64);
         this.lightLevel = 200;
         this.lightSat = 0.2F;
         this.lightHue = 60F;
@@ -36,6 +33,11 @@ public abstract class DefenseTowerExtraObject extends GameObject {
     protected abstract void setCounterIDs(int var1, int var2);
 
     @Override
+    public boolean canInteract(Level level, int x, int y, PlayerMob player) {
+        return false;
+    }
+
+    @Override
     public abstract ObjectEntity getNewObjectEntity(Level level, int x, int y);
 
     @Override
@@ -43,11 +45,6 @@ public abstract class DefenseTowerExtraObject extends GameObject {
         List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
         list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -32, 32, 32));
         return list;
-    }
-
-    @Override
-    public boolean canInteract(Level level, int x, int y, PlayerMob player) {
-        return false;
     }
 
     @Override

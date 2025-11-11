@@ -12,7 +12,12 @@ import java.awt.*;
 public class DefenseTowerObject2 extends DefenseTowerExtraObject {
     protected int counterIDLeft;
 
-    public DefenseTowerObject2() {
+    protected DefenseTowerObject2() {
+    }
+
+    @Override
+    protected Rectangle getCollision(Level level, int x, int y, int rotation) {
+        return new Rectangle(x * 32, y * 32, 32 - 3, 32);
     }
 
     @Override
@@ -26,13 +31,8 @@ public class DefenseTowerObject2 extends DefenseTowerExtraObject {
     }
 
     @Override
-    protected Rectangle getCollision(Level level, int x, int y, int rotation) {
-        return new Rectangle(x * 32, y * 32, 32 - 3, 32);
-    }
-
-    @Override
     public MultiTile getMultiTile(int rotation) {
-        return new StaticMultiTile(1, 0, 2, 1, 0, false, this.counterIDLeft, this.getID());
+        return new StaticMultiTile(1, 0, 2, 1, 0, false, new int[]{this.counterIDLeft, this.getID()});
     }
 
     @Override

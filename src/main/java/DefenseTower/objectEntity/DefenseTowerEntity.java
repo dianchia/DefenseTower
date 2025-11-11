@@ -37,13 +37,12 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
     private final GameTileRange range;
     private final Mob attacker;
     private final boolean targetBoss;
-    private final GameWindow gameWindow;
     private HudDrawElement rangeElement;
     private boolean showRange = false;
     private long cooldownTime = 0L;
     //endregion
 
-    public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown, PlayerMob owner, boolean targetBoss) {
+    public DefenseTowerEntity(Level level, String type, int x, int y, String projectileStringID, int attackDistance, float damage, long cooldown, boolean targetBoss) {
         super(level, type, x, y);
 
         this.projectileStringID = targetBoss ? projectileStringID.replace("_boss", "") : projectileStringID;
@@ -52,8 +51,7 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         this.damage = damage;
         this.cooldown = cooldown;
         this.targetBoss = targetBoss;
-        this.gameWindow = WindowManager.getWindow();
-        this.attacker = owner;
+        this.attacker = level.getClient() != null ? level.getClient().getPlayer() : null;
         //this.getLevel().entityManager.addMob(this.attacker, x, y);
 
         MultiTile multiTile = this.getObject().getMultiTile(0);
@@ -119,7 +117,8 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
         if (this.targetBoss) tooltips.add(Localization.translate("itemtooltip", "defensetowertargetboss"));
 
-        if (this.gameWindow.isKeyDown(Control.getControl("invquickmove").getKey())) {
+        GameWindow gameWindow = WindowManager.getWindow();
+        if (gameWindow.isKeyDown(Control.getControl("invquickmove").getKey())) {
             this.showRange = true;
             tooltips.add(Localization.translate("defensetower", "attackstats", "damage", this.damage));
             tooltips.add(Localization.translate("defensetower", "attacktype", "type", attackType));
@@ -152,9 +151,9 @@ public class DefenseTowerEntity extends ObjectEntity implements Attacker {
             GameDamage damage = new GameDamage(this.damage);
             Projectile projectile;
             if (projectileStringID.contains("cannonball")) {
-                projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, 50, null);
+                projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, 50, this.attacker);
             } else {
-                projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, null);
+                projectile = ProjectileRegistry.getProjectile(this.projectileStringID, this.getLevel(), this.getPosX(), this.getPosY(), target.x, target.y, 200.0F, this.attackDistance + 96, damage, this.attacker);
             }
             projectile.setTargetPrediction(target, -10.0F);
             projectile.moveDist(10.0);
