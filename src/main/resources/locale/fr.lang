@@ -1,3 +1,8 @@
+# Traduction réalisée par isyuricunha et Caranud (https://steamcommunity.com/id/Caranud/)
+# Version de mod : 1.2.1 [11/11/25]
+# Version de jeu : 1.0.1 [17/10/25] (testé fonctionnel sur la 1.0.2)
+# Date de la dernière traduction : 16/11/2025
+
 [object]
 defensetowerstone=Tour de défense (pierre)
 defensetowerfire=Tour de défense (feu)
@@ -8,12 +13,12 @@ defensetowerfire_boss=Tour de défense (feu)
 defensetowerpoison_boss=Tour de défense (poison)
 
 [itemtooltip]
-defensetowertip=Une tour pour vous aider à défendre votre base! (aussi un phare)
+defensetowertip=Une tour pour vous aider à défendre votre base ! (sert aussi de phare)
 defensetowertargetboss=§9Cette tour cible les boss
 
 [defensetower]
-attackstats=Dégâts: <damage>
-attacktype=Type de dégâts: <type>
-attackspeed=Vitesse d'attaque: <speed>/sec
-rangestats=Distance d'attaque: <range> tuiles
+attackstats=Dégâts : <damage>
+attacktype=Type de dégâts : <type>
+attackspeed=Vitesse d'attaque : <speed>/sec
+rangestats=Distance d'attaque : <range> cases
 pressshift=Appuyez sur [input=invquickmove] pour afficher plus de détails
